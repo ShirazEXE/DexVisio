@@ -8,7 +8,7 @@ import HandMovementModule as hmm
 hand_detector = hmm.HandDetector()
 
 # Set up serial communication with Arduino
-arduino = serial.Serial('/dev/tty.usbmodem21101', 9600)
+arduino = serial.Serial('/dev/tty.usbmodem11101', 9600)
 
 cap = cv2.VideoCapture(0)
 
@@ -37,9 +37,9 @@ while True:
         middle_angle = finger_angle(landmarks, 12)
         ring_angle = finger_angle(landmarks, 16)
         pinky_angle = finger_angle(landmarks, 20)
-
+        print(thumb_angle -180)
         # Send finger angles to Arduino
-        arduino.write(f"{thumb_angle},{index_angle},{middle_angle},{ring_angle},{pinky_angle}\n".encode())
+        arduino.write(f"{thumb_angle-180},{index_angle},{middle_angle},{ring_angle},{pinky_angle}\n".encode())
 
     cv2.imshow("Hand Tracking", img)
     if cv2.waitKey(1) == ord('q'):
