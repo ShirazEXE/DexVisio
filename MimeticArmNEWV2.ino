@@ -1,16 +1,15 @@
 #include <Servo.h>
 
 const int numServos = 5;
-const int servoPins[numServos] = {9, 10, 11, 12, 13};  // Pins for thumb, index, middle, ring, pinky
+const int servoPins[numServos] = {9, 10, 11, 12, 13}; // Pins for thumb, index, middle, ring, pinky
 Servo servos[numServos];
-
-const int straight_angle = 0;  // Angle for straight finger
+const int straight_angle = 0; // Angle for straight finger
 
 void setup() {
   Serial.begin(9600);
   for (int i = 0; i < numServos; i++) {
     servos[i].attach(servoPins[i]);
-    servos[i].write(straight_angle);  // Set initial position to straight
+    servos[i].write(straight_angle); 
   }
 }
 
@@ -27,9 +26,19 @@ void loop() {
       }
     }
     angles[numServos - 1] = input.substring(start).toInt();
-
     for (int i = 0; i < numServos; i++) {
-      servos[i].write(angles[i]);
+      if(angles[0] <0 ){
+          angles[0] = 0;
+      }
+      if(angles[0] > 10 ){
+          angles[0] = 110;
+      }
+      if(i != 0){
+        servos[i].write(180 - angles[i]);
+      }
+      else{
+        servos[i].write(angles[i]);
+      }
     }
   }
 }
